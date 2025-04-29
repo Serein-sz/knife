@@ -19,12 +19,13 @@ const (
 	SLASH    = "/"
 
 	BANG   = "!"
+
+	EQ     = "=="
+	NOT_EQ = "!="
 	LT     = "<"
 	LE     = "<="
 	GT     = ">"
-	GE     = "=="
-	EQ     = "=="
-	NOT_EQ = "!="
+	GE     = ">="
 
 	LPAREN   = "("
 	RPAREN   = ")"

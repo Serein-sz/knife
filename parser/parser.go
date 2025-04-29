@@ -64,6 +64,12 @@ func New(l *lexer.Lexer) *Parser {
 	p.infixHandlerFuncMap[token.ASTERISK] = p.parseInfixExpression
 	p.infixHandlerFuncMap[token.SLASH] = p.parseInfixExpression
 	p.infixHandlerFuncMap[token.LPAREN] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.EQ] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.NOT_EQ] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.LT] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.LE] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.GT] = p.parseInfixExpression
+	p.infixHandlerFuncMap[token.GE] = p.parseInfixExpression
 
 	p.nextToken()
 	p.nextToken()
