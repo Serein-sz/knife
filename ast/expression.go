@@ -79,6 +79,38 @@ func (nl *NumberLiteral) String() string {
 // 版本: 1.0.0
 func (nl *NumberLiteral) expressionNode() {}
 
+// NumberLiteral 表示数字字面量节点
+// 包含Token和数字值
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+// TokenLiteral 返回字符串字面量
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (sl *StringLiteral) TokenLiteral() string {
+	return sl.Token.Literal
+}
+
+// String 返回字符串字面量的字符串表示
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (sl *StringLiteral) String() string {
+	return sl.Value
+}
+
+// expressionNode 标记节点类型为表达式
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (sl *StringLiteral) expressionNode() {}
+
 // FunctionCallExpression 表示函数调用表达式节点
 // 包含Token、参数列表和函数表达式
 // 作者: 王强

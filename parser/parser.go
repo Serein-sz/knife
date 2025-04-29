@@ -55,9 +55,10 @@ func New(l *lexer.Lexer) *Parser {
 
 	p.prefixHandlerFuncMap = make(map[token.TokenType]prefixHandlerFunc)
 	p.infixHandlerFuncMap = make(map[token.TokenType]infixHandlerFunc)
-	p.prefixHandlerFuncMap[token.NUMBER] = p.parseNumberLiteral
 	p.prefixHandlerFuncMap[token.IDENT] = p.parseIdentifier
 	p.prefixHandlerFuncMap[token.BANG] = p.parsePrefixExpression
+	p.prefixHandlerFuncMap[token.NUMBER] = p.parseNumberLiteral
+	p.prefixHandlerFuncMap[token.STRING] = p.parseStringLiteral
 	p.infixHandlerFuncMap[token.PLUS] = p.parseInfixExpression
 	p.infixHandlerFuncMap[token.MINUS] = p.parseInfixExpression
 	p.infixHandlerFuncMap[token.ASTERISK] = p.parseInfixExpression
@@ -288,6 +289,11 @@ func (p *Parser) parseInfixExpression(lhs ast.Expression) ast.Expression {
 func (p *Parser) parseNumberLiteral() ast.Expression {
 	return &ast.NumberLiteral{Token: p.curToken, Value: p.curToken.Literal}
 }
+
+func (p *Parser) parseStringLiteral() ast.Expression {
+	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
+}
+
 
 func (p *Parser) parseIdentifier() ast.Expression {
 	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
