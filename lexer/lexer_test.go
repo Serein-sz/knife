@@ -8,7 +8,7 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	src, err := utils.ReadFile("D:/go-workspace/knife/example/lexer.k")
+	src, err := utils.ReadFile("../example/lexer.k")
 	if err != nil {
 		t.Fatal(err)
 	}

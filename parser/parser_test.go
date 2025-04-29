@@ -9,7 +9,7 @@ import (
 )
 
 func TestParser(t *testing.T)  {
-	src, err := utils.ReadFile("D:/go-workspace/knife/example/main.k")
+	src, err := utils.ReadFile("../example/main.k")
 	if err != nil {
 		panic("not found source code")
 	}
