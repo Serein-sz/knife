@@ -14,7 +14,7 @@ for platform in "${platforms[@]}"; do
   GOARCH=${platform#*/}
   
   # 生成输出文件名
-  output_name="app-${GOOS}-${GOARCH}"
+  output_name="./bin/app/app-${GOOS}-${GOARCH}"
   if [ $GOOS = "windows" ]; then
     output_name+=".exe"
   fi

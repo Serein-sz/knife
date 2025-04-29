@@ -21,5 +21,5 @@ func main() {
 	if err = p.Error(); err != nil {
 		io.WriteString(os.Stderr, err.Error())
 	}
-	fmt.Printf("src:\n%+v", program)
+	fmt.Printf("src:\n%v\n", program)
 }

@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/Serein-sz/knife/lexer"
@@ -15,6 +14,5 @@ func TestParser(t *testing.T)  {
 	}
 	l := lexer.New(src)
 	p := New(l)
-	program := p.ParseProgram()
-	fmt.Printf("src:\n%+v", program)
+	_ = p.ParseProgram()
 }

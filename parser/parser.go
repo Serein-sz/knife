@@ -206,6 +206,9 @@ func (p *Parser) parseExpressionList(close token.TokenType) []ast.Expression {
 	if !p.expectPeek(close) {
 		return nil
 	}
+	if p.peekTokenTypeIs(token.SEMICOLON) {
+		p.nextToken()
+	}
 	return expressions
 }
 
