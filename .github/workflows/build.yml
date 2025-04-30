@@ -24,7 +24,7 @@ jobs:
           go-version: ${{ matrix.go }}
 
       - name: Build
-        run: go build -v -o ./bin/knife ./...
+        run: go build -v -o ./bin/knife
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
