@@ -14,7 +14,7 @@ func Print(args ...environment.Object) environment.Object {
 	for i, a := range args {
 		fmt.Print(a.Inspect())
 		if i != len(args)-1 {
-			fmt.Print(" ")
+			fmt.Print(", ")
 		} else {
 			fmt.Println()
 		}

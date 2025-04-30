@@ -1,18 +1,19 @@
 package eval
 
 import (
+	"errors"
 	"io"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/Serein-sz/knife/environment"
 	"github.com/Serein-sz/knife/lexer"
 	"github.com/Serein-sz/knife/parser"
-	"github.com/Serein-sz/knife/utils"
 )
 
 func TestEval(t *testing.T) {
-	src, err := utils.ReadFile("../example/main.k")
+	src, err := ReadFile("../example/main.k")
 	if err != nil {
 		panic("not found source code")
 	}
@@ -27,4 +28,20 @@ func TestEval(t *testing.T) {
 	if err != nil {
 		t.Fatalf("eval err: %v", err)
 	}
+}
+
+func ReadFile(filename string) (string, error) {
+	// 检查文件扩展名是否为.k
+	if !strings.HasSuffix(filename, ".k") {
+		return "", errors.New("The file extension must be .k")
+	}
+
+	// 读取文件内容
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return "", err
+	}
+
+	// 确保使用UTF-8编码和LF换行符
+	return string(content), nil
 }

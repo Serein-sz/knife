@@ -1,14 +1,16 @@
 package lexer
 
 import (
+	"errors"
+	"os"
+	"strings"
 	"testing"
 
 	"github.com/Serein-sz/knife/token"
-	"github.com/Serein-sz/knife/utils"
 )
 
 func TestNextToken(t *testing.T) {
-	src, err := utils.ReadFile("../example/lexer.k")
+	src, err := ReadFile("../example/lexer.k")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -115,4 +117,20 @@ func TestNextToken(t *testing.T) {
 			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
 		}
 	}
+}
+
+func ReadFile(filename string) (string, error) {
+	// 检查文件扩展名是否为.k
+	if !strings.HasSuffix(filename, ".k") {
+		return "", errors.New("The file extension must be .k")
+	}
+
+	// 读取文件内容
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return "", err
+	}
+
+	// 确保使用UTF-8编码和LF换行符
+	return string(content), nil
 }

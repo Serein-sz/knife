@@ -242,9 +242,6 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	}
 	p.nextToken()
 	letStatement.Value = p.parseExpression(LOWEST)
-	// if !p.expectPeek(token.SEMICOLON) {
-	// 	return nil
-	// }
 	return letStatement
 }
 

@@ -2,6 +2,7 @@ package ast
 
 import (
 	"bytes"
+	"strings"
 
 	"github.com/Serein-sz/knife/token"
 )
@@ -88,10 +89,13 @@ func (bs *BlockStatement) TokenLiteral() string {
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
 	out.WriteString("{\n")
-	for _, s := range bs.Statements {
-		out.WriteString("    " + s.String() + "\n")
+	for i, s := range bs.Statements {
+		out.WriteString("    " + strings.ReplaceAll(s.String(), "\n", ""))
+		if i != len(bs.Statements)-1 {
+			out.WriteString("\n")
+		}
 	}
-	out.WriteString("}\n")
+	out.WriteString("\n}\n")
 	return out.String()
 }
 
