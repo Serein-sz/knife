@@ -4,6 +4,7 @@ import "github.com/Serein-sz/knife/token"
 
 type Lexer struct {
 	src          string
+	line         int
 	position     int
 	readPosition int
 	ch           byte
@@ -11,6 +12,7 @@ type Lexer struct {
 
 func New(src string) *Lexer {
 	l := &Lexer{src: src}
+	l.line++
 	l.readChar()
 	return l
 }
@@ -91,15 +93,18 @@ func (l *Lexer) NextToken() token.Token {
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
+			tok.Line = l.line
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Type = token.NUMBER
 			tok.Literal = l.readNumber()
+			tok.Line = l.line
 			return tok
 		} else {
 			tok = token.Token{Type: token.ILLEGAL, Literal: string(l.ch)}
 		}
 	}
+	tok.Line = l.line
 	l.readChar()
 	return tok
 }
@@ -154,6 +159,9 @@ func (l *Lexer) peekChar() byte {
 
 func (l *Lexer) skipWhitespace() {
 	for isWhitespace(l.ch) {
+		if l.ch == '\n' || l.ch == '\r' {
+			l.line++
+		}
 		l.readChar()
 	}
 }

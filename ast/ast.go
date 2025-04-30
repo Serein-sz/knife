@@ -2,27 +2,20 @@ package ast
 
 import "bytes"
 
-// Node 表示抽象语法树中的节点接口
-// 作者: 王强
-// 日期: 2025-04-30
-// 版本: 1.0.0
 type Node interface {
+	Line() int
 	TokenLiteral() string
 	String() string
 }
 
-// Program 表示程序节点，包含语句集合
-// 作者: 王强
-// 日期: 2025-04-30
-// 版本: 1.0.0
 type Program struct {
 	Statements []Statement
 }
 
-// String 返回程序的字符串表示
-// 作者: 王强
-// 日期: 2025-04-30
-// 版本: 1.0.1
+func (p *Program) Line() int {
+	return p.Statements[0].Line()
+}
+
 func (p *Program) String() string {
 	var out bytes.Buffer
 

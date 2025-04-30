@@ -49,6 +49,7 @@ const (
 )
 
 type Token struct {
+	Line    int
 	Type    TokenType
 	Literal string
 }

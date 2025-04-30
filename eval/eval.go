@@ -56,7 +56,7 @@ func Eval(node ast.Node, env *environment.Environment) (environment.Object, erro
 		res, err := evalInfixExpression(node.Op, lhs, rhs)
 		return res, err
 	}
-	return nil, fmt.Errorf("unsupported object type: %T\n", node)
+	return nil, fmt.Errorf("line: %d, error: unsupported object type: %T\n", node.Line(), node)
 }
 
 func evalBlockStatements(statements []ast.Statement, env *environment.Environment) (environment.Object, error) {
@@ -139,7 +139,7 @@ func evalIdentifier(node *ast.Identifier, env *environment.Environment) (environ
 		return bti, nil
 	}
 
-	return nil, fmt.Errorf("undefined identifier: %s\n", node.Value)
+	return nil, fmt.Errorf("line: %d, error: undefined identifier: %s\n", node.Line(), node.Value)
 }
 
 func evalLetStatement(node *ast.LetStatement, env *environment.Environment) (environment.Object, error) {
@@ -167,7 +167,7 @@ func evalExpressions(args []ast.Expression, env *environment.Environment) ([]env
 	for _, a := range args {
 		v, err := Eval(a, env)
 		if err != nil {
-			return nil, fmt.Errorf("passing exp error: [%v]%v", a, err)
+			return nil, fmt.Errorf("line: %d, error: passing exp error: [%v]%v", a.Line(), a, err)
 		}
 		res = append(res, v)
 	}

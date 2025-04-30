@@ -242,16 +242,16 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	}
 	p.nextToken()
 	letStatement.Value = p.parseExpression(LOWEST)
-	if !p.expectPeek(token.SEMICOLON) {
-		return nil
-	}
+	// if !p.expectPeek(token.SEMICOLON) {
+	// 	return nil
+	// }
 	return letStatement
 }
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefixHandler, ok := p.prefixHandlerFuncMap[p.curToken.Type]
 	if !ok {
-		msg := fmt.Sprintf("undefined prefix operator: %q", p.curToken.Type)
+		msg := fmt.Sprintf("line: %d, error: undefined prefix operator: %q", p.curToken.Line, p.curToken.Type)
 		p.errors = append(p.errors, msg)
 		return nil
 	}
@@ -347,5 +347,5 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 }
 
 func (p *Parser) peekError(t token.TokenType) {
-	p.errors = append(p.errors, fmt.Sprintf("expected next token to be %s, but got %s", t, p.peekToken.Type))
+	p.errors = append(p.errors, fmt.Sprintf("line: %d, error: expected next token to be %s, but got %s", p.curToken.Line, t, p.peekToken.Type))
 }
