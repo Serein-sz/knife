@@ -211,21 +211,6 @@ func (p *Parser) parseExpressionList(close token.TokenType) []ast.Expression {
 		p.nextToken()
 		expressions = append(expressions, p.parseExpression(LOWEST))
 	}
-	// for {
-	// 	if p.peekTokenTypeIs(token.COMMA) {
-	// 		p.nextToken()
-	// 		p.nextToken()
-	// 		expressions = append(expressions, p.parseExpression(LOWEST))
-	// 		continue
-	// 	}
-	// 	infixHandlerFunc, ok := p.infixHandlerFuncMap[p.peekToken.Type]
-	// 	if ok {
-	// 		p.nextToken()
-	// 		expressions = []ast.Expression{infixHandlerFunc(expression)}
-	// 		continue
-	// 	}
-	// 	break
-	// }
 	if !p.expectPeek(close) {
 		return nil
 	}
