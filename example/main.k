@@ -1,7 +1,13 @@
-let a = 1;
+let a = 4;
 let b = 2;
-func add(x, y) {
-    return x + y;
+func subtract(x, y) {
+    return x - y;
 }
-print(add(a + b, b))
-print("Hello World!!!")
+func add(x, y, subtract) {
+    return x + y + subtract(x, y)
+}
+func findNumbers(nums) {
+    
+}
+print(add(a, b, subtract))
+print(add(a, b, subtract) == 8)

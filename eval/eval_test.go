@@ -1,19 +1,18 @@
-package main
+package eval
 
 import (
-	"fmt"
 	"io"
 	"os"
+	"testing"
 
 	"github.com/Serein-sz/knife/environment"
-	"github.com/Serein-sz/knife/eval"
 	"github.com/Serein-sz/knife/lexer"
 	"github.com/Serein-sz/knife/parser"
 	"github.com/Serein-sz/knife/utils"
 )
 
-func main() {
-	src, err := utils.ReadFile("./example/main.k")
+func TestEval(t *testing.T) {
+	src, err := utils.ReadFile("../example/main.k")
 	if err != nil {
 		panic("not found source code")
 	}
@@ -24,8 +23,8 @@ func main() {
 		io.WriteString(os.Stderr, err.Error())
 	}
 	env := environment.NewEnvironment(nil)
-	_, err = eval.Eval(program, env)
+	_, err = Eval(program, env)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "eval err: %v", err)
+		t.Fatalf("eval err: %v", err)
 	}
 }

@@ -182,8 +182,8 @@ func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
 	returnStatement := &ast.ReturnStatement{Token: p.curToken}
 	p.nextToken()
 	returnStatement.Value = p.parseExpression(LOWEST)
-	if !p.expectPeek(token.SEMICOLON) {
-		return nil
+	if p.peekTokenTypeIs(token.SEMICOLON) {
+		p.nextToken()
 	}
 	return returnStatement
 }
@@ -205,10 +205,20 @@ func (p *Parser) parseExpressionList(close token.TokenType) []ast.Expression {
 	p.nextToken()
 	expression := p.parseExpression(LOWEST)
 	expressions := []ast.Expression{expression}
-	for p.peekTokenTypeIs(token.COMMA) {
-		p.nextToken()
-		p.nextToken()
-		expressions = append(expressions, p.parseExpression(LOWEST))
+	for {
+		if p.peekTokenTypeIs(token.COMMA) {
+			p.nextToken()
+			p.nextToken()
+			expressions = append(expressions, p.parseExpression(LOWEST))
+			continue
+		}
+		infixHandlerFunc, ok := p.infixHandlerFuncMap[p.peekToken.Type]
+		if ok {
+			p.nextToken()
+			expressions = []ast.Expression{infixHandlerFunc(expression)}
+			continue
+		}
+		break
 	}
 	if !p.expectPeek(close) {
 		return nil
@@ -255,12 +265,13 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 		return nil
 	}
 	lhs := prefixHandler()
-	if !p.peekTokenTypeIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
+	if !p.peekTokenTypeIs(token.SEMICOLON) && precedence <= p.peekPrecedence() {
 		infixHandler, ok := p.infixHandlerFuncMap[p.peekToken.Type]
-		if ok {
-			p.nextToken()
-			lhs = infixHandler(lhs)
+		if !ok {
+			return lhs
 		}
+		p.nextToken()
+		lhs = infixHandler(lhs)
 	}
 	return lhs
 }
@@ -299,7 +310,6 @@ func (p *Parser) parseNumberLiteral() ast.Expression {
 func (p *Parser) parseStringLiteral() ast.Expression {
 	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
 }
-
 
 func (p *Parser) parseIdentifier() ast.Expression {
 	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
