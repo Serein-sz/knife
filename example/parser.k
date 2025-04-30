@@ -1,7 +1,10 @@
-let a = 21.1;
-let b = 4.3;
-func add(x, y) {
-    return x + y;
+let a = 4
+let b = 2
+func subtract(x, y) {
+    return x - y
 }
-print(add(a + b, b))
-print(add(a + b, b) == 29.700000000000003)
+func add(x, y, subtract) {
+    return x + y + subtract(x, y)
+}
+print(add(a, b, subtract) == 8, print() == null)
+print(add(a, b, subtract) == 8, print() == null)

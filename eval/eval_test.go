@@ -13,7 +13,7 @@ import (
 )
 
 func TestEval(t *testing.T) {
-	src, err := ReadFile("../example/main.k")
+	src, err := ReadFile("../example/src/main.k")
 	if err != nil {
 		panic("not found source code")
 	}

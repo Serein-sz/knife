@@ -10,7 +10,7 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	src, err := ReadFile("../example/main.k")
+	src, err := ReadFile("../example/parser.k")
 	if err != nil {
 		panic("not found source code")
 	}
