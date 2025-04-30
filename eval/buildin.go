@@ -19,5 +19,5 @@ func Print(args ...environment.Object) environment.Object {
 			fmt.Println()
 		}
 	}
-	return nil
+	return NULL
 }

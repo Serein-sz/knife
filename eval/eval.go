@@ -25,6 +25,8 @@ func Eval(node ast.Node, env *environment.Environment) (environment.Object, erro
 		return evalLetStatement(node, env)
 	case *ast.Identifier:
 		return evalIdentifier(node, env)
+	case *ast.Null:
+		return NULL, nil
 	case *ast.NumberLiteral:
 		return &environment.Number{Value: node.Value}, nil
 	case *ast.FunctionDefineStatement:
@@ -77,6 +79,15 @@ func evalInfixExpression(op string, lhs environment.Object, rhs environment.Obje
 	if lType == environment.NUMBER && rType == environment.NUMBER {
 		l, r := lhs.(*environment.Number), rhs.(*environment.Number)
 		return evalInfixNumber(op, l, r)
+	}
+	if lType == environment.NULL || rType == environment.NULL {
+		if lhs.Type() == environment.NULL && rhs.Type() != environment.NULL {
+			return FALSE, nil
+		}
+		if lhs.Type() != environment.NULL && rhs.Type() == environment.NULL {
+			return FALSE, nil
+		}
+		return TRUE, nil
 	}
 	return nil, fmt.Errorf("illegal operands for %q, lhs: %q, rhs: %q\n", op, lhs.Inspect(), rhs.Inspect())
 }
@@ -182,5 +193,5 @@ func evalFunctionCallExpression(function environment.Object, args []environment.
 	case *environment.Builtin:
 		return f.Function(args...), nil
 	}
-	return nil, fmt.Errorf("%v is not callable", function.Inspect())
+	return NULL, fmt.Errorf("%v is not callable", function.Inspect())
 }

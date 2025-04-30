@@ -11,6 +11,7 @@ const (
 	FALSE  = "FALSE"
 	STRING = "STRING"
 	ARRAY  = "ARRAY"
+	NULL   = "NULL"
 
 	ASSIGN   = "="
 	PLUS     = "+"
@@ -18,7 +19,7 @@ const (
 	ASTERISK = "*"
 	SLASH    = "/"
 
-	BANG   = "!"
+	BANG = "!"
 
 	EQ     = "=="
 	NOT_EQ = "!="
@@ -60,6 +61,7 @@ var keywords = map[string]TokenType{
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
+	"null":   NULL,
 }
 
 func LookupIdent(literal string) TokenType {

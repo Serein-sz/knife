@@ -23,6 +23,7 @@ func main() {
 	if err = p.Error(); err != nil {
 		io.WriteString(os.Stderr, err.Error())
 	}
+	fmt.Println(program)
 	env := environment.NewEnvironment(nil)
 	_, err = eval.Eval(program, env)
 	if err != nil {

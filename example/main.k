@@ -6,8 +6,4 @@ func subtract(x, y) {
 func add(x, y, subtract) {
     return x + y + subtract(x, y)
 }
-func findNumbers(nums) {
-    
-}
-print(add(a, b, subtract))
-print(add(a, b, subtract) == 8)
+print(add(a, b, subtract) == 8, print() == null)

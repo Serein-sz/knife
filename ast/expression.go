@@ -47,6 +47,38 @@ func (i *Identifier) String() string {
 // 版本: 1.0.0
 func (i *Identifier) expressionNode() {}
 
+// Null 表示空值节点
+// 包含Token和标识符值
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+type Null struct {
+	Token token.Token
+	Value string
+}
+
+// TokenLiteral 返回标识符的字面量
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (n *Null) TokenLiteral() string {
+	return n.Token.Literal
+}
+
+// String 返回标识符的字符串表示
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (n *Null) String() string {
+	return n.Value
+}
+
+// expressionNode 标记节点类型为表达式
+// 作者: 王强
+// 日期: 2025-04-29
+// 版本: 1.0.0
+func (n *Null) expressionNode() {}
+
 // NumberLiteral 表示数字字面量节点
 // 包含Token和数字值
 // 作者: 王强

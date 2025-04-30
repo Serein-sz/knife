@@ -56,6 +56,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.prefixHandlerFuncMap = make(map[token.TokenType]prefixHandlerFunc)
 	p.infixHandlerFuncMap = make(map[token.TokenType]infixHandlerFunc)
 	p.prefixHandlerFuncMap[token.IDENT] = p.parseIdentifier
+	p.prefixHandlerFuncMap[token.NULL] = p.parseNull
 	p.prefixHandlerFuncMap[token.BANG] = p.parsePrefixExpression
 	p.prefixHandlerFuncMap[token.NUMBER] = p.parseNumberLiteral
 	p.prefixHandlerFuncMap[token.STRING] = p.parseStringLiteral
@@ -205,21 +206,26 @@ func (p *Parser) parseExpressionList(close token.TokenType) []ast.Expression {
 	p.nextToken()
 	expression := p.parseExpression(LOWEST)
 	expressions := []ast.Expression{expression}
-	for {
-		if p.peekTokenTypeIs(token.COMMA) {
-			p.nextToken()
-			p.nextToken()
-			expressions = append(expressions, p.parseExpression(LOWEST))
-			continue
-		}
-		infixHandlerFunc, ok := p.infixHandlerFuncMap[p.peekToken.Type]
-		if ok {
-			p.nextToken()
-			expressions = []ast.Expression{infixHandlerFunc(expression)}
-			continue
-		}
-		break
+	for p.peekTokenTypeIs(token.COMMA) {
+		p.nextToken()
+		p.nextToken()
+		expressions = append(expressions, p.parseExpression(LOWEST))
 	}
+	// for {
+	// 	if p.peekTokenTypeIs(token.COMMA) {
+	// 		p.nextToken()
+	// 		p.nextToken()
+	// 		expressions = append(expressions, p.parseExpression(LOWEST))
+	// 		continue
+	// 	}
+	// 	infixHandlerFunc, ok := p.infixHandlerFuncMap[p.peekToken.Type]
+	// 	if ok {
+	// 		p.nextToken()
+	// 		expressions = []ast.Expression{infixHandlerFunc(expression)}
+	// 		continue
+	// 	}
+	// 	break
+	// }
 	if !p.expectPeek(close) {
 		return nil
 	}
@@ -312,7 +318,15 @@ func (p *Parser) parseStringLiteral() ast.Expression {
 }
 
 func (p *Parser) parseIdentifier() ast.Expression {
-	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+	identifier := &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+	if p.peekTokenTypeIs(token.LPAREN) {
+		p.nextToken()
+		return p.parseFunctionCallExpression(identifier)
+	}
+	return identifier
+}
+func (p *Parser) parseNull() ast.Expression {
+	return &ast.Null{Token: p.curToken, Value: p.curToken.Literal}
 }
 
 func (p *Parser) curPrecedence() int {
