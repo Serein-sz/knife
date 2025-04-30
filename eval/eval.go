@@ -29,6 +29,8 @@ func Eval(node ast.Node, env *environment.Environment) (environment.Object, erro
 		return NULL, nil
 	case *ast.NumberLiteral:
 		return &environment.Number{Value: node.Value}, nil
+	case *ast.StringLiteral:
+		return &environment.String{Value: node.Value}, nil
 	case *ast.FunctionDefineStatement:
 		return evalFunctionDefineStatement(node, env)
 	case *ast.ReturnStatement:
