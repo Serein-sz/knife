@@ -24,13 +24,13 @@ jobs:
           go-version: ${{ matrix.go }}
 
       - name: Build
-        run: go build -v ./...
+        run: go build -v -o ./bin/knife ./...
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: knife-${{ matrix.os }}
-          path: knife
+          path: ./bin/knife
 
   release:
     name: Create Release
@@ -52,6 +52,7 @@ jobs:
           release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
+          make_latest: true
 
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
