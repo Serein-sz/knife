@@ -4,7 +4,7 @@
 Knife 是一个轻量级的脚本语言解释器，使用 Go 语言实现。
 
 ## 安装说明
-1. 确保已安装 Go 1.23.3 或更高版本
+1. 确保已安装 Go 1.24 或更高版本
 2. 克隆本项目：
    ```
    git clone https://github.com/Serein-sz/knife.git
